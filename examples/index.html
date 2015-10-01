@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="all" href="./public/style/normalize.css">
+    <link rel="stylesheet" type="text/css" media="all" href="./public/style/foundation.css">
+    <link rel="stylesheet" type="text/css" media="all" href="./public/style/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" media="all" href="./public/style/xml3d-blender-preview.css">
+    <script src="./public/scripts/vendor/modernizr.js"></script>
+    <script src="./public/scripts/vendor/jquery.js"></script>
+    <script src="./public/scripts/foundation.min.js"></script>
+    <script src="http://xml3d.org/xml3d/scripts/xml3d-4.9-min.js" type="text/javascript"></script>
+    <script src="http://xml3d.org/xml3d/scripts/tools/camera.js" type="text/javascript"></script>
+    <script src="../xml3d-stl-plugin-min.js" type="text/javascript"></script>
+    <script src="./public/scripts/stats.js" type="text/javascript"></script>
+    <script src="public/scripts/app.js" type="text/javascript"></script>
+
+    <title>XML3D STL Plugin</title>
+</head>
+<body>
+<div class="fixed">
+    <nav class="top-bar bottom-bar">
+        <ul class="title-area">
+            <li class="name"><h1><a href="">XML3D STL Plugin</a></h1></li>
+        </ul>
+        <section class="top-bar-section">
+            <ul class="left">
+                <li><a href="#"><span class='fa fa-github'></span></a>
+            </ul>
+            <ul class="right">
+
+                <li class='divider'></li>
+                <li><a class='renderStats' href='#'></a></li>
+                <li class='divider'></li>
+                <li><a href='https://github.com/xml3d/xml3d-stl-plugin'><span
+                        class="fa fa-circle-o-notch fa-spin"></span></a></li>
+            </ul>
+        </section>
+    </nav>
+</div>
+<xml3d style="width: 100%; height: 100%; background-color:rgb(65,65,65);">
+    <defs>
+        <lightshader id="ls" script="urn:xml3d:lightshader:directional">
+            <float3 name="intensity">0.7 0.7 0.7</float3>
+        </lightshader>
+        <lightshader id="ls2" script="urn:xml3d:lightshader:directional">
+            <float3 name="intensity">0.4 0.4 0.7</float3>
+        </lightshader>
+        <shader id="mat" script="urn:xml3d:material:phong">
+            <float name="ambientIntensity">0.2</float>
+            <float name="specularColor">0.8 0.8 0.8</float>
+        </shader>
+    </defs>
+    <group style="transform: rotate3d(1, 0, 0, -45deg);">
+        <light shader="#ls"></light>
+    </group>
+    <group style="transform: rotate3d(0, 1, 0, -100deg);">
+        <light shader="#ls2"></light>
+    </group>
+    <mesh shader="#mat" src="./resources/large-binary.stl"></mesh>
+</xml3d>
+<div style="position: absolute; top:0; left: 0">
+    <a href="#" data-dropdown="drop" class="button">STL Model &raquo;</a>
+    <ul id="drop" class="tiny f-dropdown" data-dropdown-content aria-autoclose="true">
+        <li><a data-url="large-binary.stl" href="#">Part (binary)</a></li>
+        <li><a data-url="cube-binary.stl" href="#">Cube (binary)</a></li>
+        <li><a data-url="cube.stl" href="#">Cube (ASCII)</a></li>
+    </ul>
+
+</div>
+<script>
+    $(document).foundation();
+</script>
+</body>
+</html>
