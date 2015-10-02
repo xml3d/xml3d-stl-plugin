@@ -32,6 +32,8 @@
         <section class="top-bar-section">
             <ul class="left">
                 <li><a href="https://github.com/xml3d/xml3d-stl-plugin"><span class='fa fa-github'></span></a>
+                <li class='divider'></li>
+                <li><a><input id="upload" style="position: inherit" type="file"/></a></li>
             </ul>
             <ul class="right">
 
@@ -72,10 +74,15 @@
         <li><a data-url="cube-binary.stl" href="#">Cube (binary)</a></li>
         <li><a data-url="cube.stl" href="#">Cube (ASCII)</a></li>
     </ul>
-
 </div>
 <script>
     $(document).foundation();
+    function handleFileSelect(evt) {
+        var file = evt.target.files[0];
+        $("mesh").attr("src", URL.createObjectURL(file));
+    };
+    document.getElementById('upload').addEventListener('change', handleFileSelect, false);
+
 </script>
 </body>
 </html>
