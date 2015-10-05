@@ -2111,11 +2111,12 @@ DataStream.flipArrayEndianness = function(array) {
   @return {string} String created from the character codes.
 **/
 DataStream.createStringFromArray = function(array) {
-  var str = "";
-  for (var i=0; i<array.length; i++) {
-    str += String.fromCharCode(array[i]);
+  var CHUNK_SZ = 0x8000;
+  var c = [];
+  for (var i=0; i < array.length; i+=CHUNK_SZ) {
+    c.push(String.fromCharCode.apply(null, array.subarray(i, i+CHUNK_SZ)));
   }
-  return str;
+  return c.join("");
 };
 
 /**
