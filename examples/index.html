@@ -6,7 +6,8 @@
 
     <meta property="og:title" content="XML3D STL Plugin">
     <meta property="og:image" content="http://xml3d.org/xml3d/material/images/xml3d-stl-plugin.png">
-    <meta property="og:description" content="JavaScript plug-in for xml3d.js to use STL models as external mesh references.">
+    <meta property="og:description"
+          content="JavaScript plug-in for xml3d.js to use STL models as external mesh references.">
 
     <link rel="stylesheet" type="text/css" media="all" href="./public/style/normalize.css">
     <link rel="stylesheet" type="text/css" media="all" href="./public/style/foundation.css">
@@ -15,8 +16,8 @@
     <script src="./public/scripts/vendor/modernizr.js"></script>
     <script src="./public/scripts/vendor/jquery.js"></script>
     <script src="./public/scripts/foundation.min.js"></script>
-    <script src="http://xml3d.org/xml3d/scripts/xml3d-4.9-min.js" type="text/javascript"></script>
-    <script src="http://xml3d.org/xml3d/scripts/tools/camera.js" type="text/javascript"></script>
+    <script src="./public/scripts/xml3d-5.0-min.js" type="text/javascript"></script>
+    <script src="./public/scripts/camera.js" type="text/javascript"></script>
     <script src="../xml3d-stl-plugin-min.js" type="text/javascript"></script>
     <script src="./public/scripts/stats.js" type="text/javascript"></script>
     <script src="public/scripts/app.js" type="text/javascript"></script>
@@ -48,24 +49,22 @@
 </div>
 <xml3d style="width: 100%; height: 100%; background-color:rgb(65,65,65);">
     <defs>
-        <lightshader id="ls" script="urn:xml3d:lightshader:directional">
-            <float3 name="intensity">0.7 0.7 0.7</float3>
-        </lightshader>
-        <lightshader id="ls2" script="urn:xml3d:lightshader:directional">
-            <float3 name="intensity">0.4 0.4 0.7</float3>
-        </lightshader>
-        <shader id="mat" script="urn:xml3d:material:phong">
+        <material id="mat" model="urn:xml3d:material:phong">
             <float name="ambientIntensity">0.2</float>
             <float name="specularColor">0.8 0.8 0.8</float>
-        </shader>
+        </material>
     </defs>
     <group style="transform: rotate3d(1, 0, 0, -45deg);">
-        <light shader="#ls"></light>
+        <light model="urn:xml3d:light:directional">
+            <float3 name="intensity">0.7 0.7 0.7</float3>
+        </light>
     </group>
     <group style="transform: rotate3d(0, 1, 0, -100deg);">
-        <light shader="#ls2"></light>
+        <light model="urn:xml3d:light:directional">
+            <float3 name="intensity">0.4 0.4 0.7</float3>
+        </light>
     </group>
-    <mesh shader="#mat" src="./resources/large-binary.stl"></mesh>
+    <mesh material="#mat" src="./resources/large-binary.stl"></mesh>
 </xml3d>
 <div style="position: absolute; top:0; left: 0">
     <a href="#" data-dropdown="drop" class="button">STL Model &raquo;</a>
@@ -77,10 +76,17 @@
 </div>
 <script>
     $(document).foundation();
+
     function handleFileSelect(evt) {
         var file = evt.target.files[0];
-        $("mesh").attr("src", URL.createObjectURL(file));
-    };
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            var arr = new Uint8Array(reader.result);
+            var blob = new Blob(arr, {type: "application/vnd.ms-pki.stl"});
+            $("mesh").attr("src", URL.createObjectURL(blob));
+        };
+        reader.readAsArrayBuffer(file);
+    }
     document.getElementById('upload').addEventListener('change', handleFileSelect, false);
 
 </script>

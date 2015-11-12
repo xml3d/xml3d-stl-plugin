@@ -56,9 +56,14 @@ $(function() {
         renderStats.text(v.join(" "));
     });
 
-    var view = $("<view id='v_pview' position='0 0 10'></view>");
+    var view = $("<view id='v_pview'></view>");
     xml3d.appendChild(view.get(0));
-    xml3d.setAttribute("activeView", "#v_pview");
+    xml3d.setAttribute("view", "#v_pview");
+
+    var transform = document.getElementById("v_pview");
+	var DemoCamera = new XML3D.StandardCamera(transform, {mode:"examine"});
+    DemoCamera.translate(XML3D.Vec3([0,0,10]));
+
 
     $("#drop li a").click(function() {
         $("mesh").attr("src", "resources/" + $(this).attr("data-url") ) ;
